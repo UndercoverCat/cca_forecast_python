@@ -41,11 +41,16 @@ def summarize_forecast(data):
         }
 
         # format reader-friendly date
-        day_name = day.strftime("%A %B %d").replace(" 0", " ")
+        day_name = format_date(day)
 
         summaries[day_name] = summary
 
     return summaries
+
+
+def format_date(day):
+    return day.strftime("%A %B %d").replace(" 0", " ")
+
 
 def group_by_day(data):
     grp_day = defaultdict(list)
