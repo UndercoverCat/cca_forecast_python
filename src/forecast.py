@@ -2,6 +2,17 @@ from datetime import datetime
 from collections import defaultdict
 
 
+class ForecastDay:
+    def __init__(self, date, morning_temp, morning_rain, afternoon_temp, afternoon_rain, high_temp, low_temp):
+        self.date = date
+        self.morning_temp = morning_temp
+        self.morning_rain = morning_rain
+        self.afternoon_temp = afternoon_temp
+        self.afternoon_rain = afternoon_rain
+        self.high_temp = high_temp
+        self.low_temp = low_temp
+
+
 def summarize_forecast(data):
     grp_day = defaultdict(list)
     summaries = {}
@@ -27,15 +38,11 @@ def summarize_forecast(data):
 
         summary = {
             # if no morning data, report insufficient data
-            "morning_average_temperature": "Insufficient forecast data" if not morning_t else round(
-                sum(morning_t) / len(morning_t)),
-            "morning_chance_of_rain": "Insufficient forecast data" if not morning_r else round(
-                sum(morning_r) / len(morning_r), 2),
+            "morning_average_temperature": rounded_average(morning_t),
+            "morning_chance_of_rain": rounded_average(morning_r, 2),
             # if no afternoon data, report insufficient data
-            "afternoon_average_temperature": "Insufficient forecast data" if not afternoon_t else round(
-                sum(afternoon_t) / len(afternoon_t)),
-            "afternoon_chance_of_rain": "Insufficient forecast data" if not afternoon_r else round(
-                sum(afternoon_r) / len(afternoon_r), 2),
+            "afternoon_average_temperature": rounded_average(afternoon_t),
+            "afternoon_chance_of_rain": rounded_average(afternoon_r, 2),
             "high_temperature": max(all_t),
             "low_temperature": min(all_t)
         }
@@ -46,6 +53,10 @@ def summarize_forecast(data):
         summaries[day_name] = summary
 
     return summaries
+
+
+def rounded_average(data, round_to=0):
+    return round(sum(data) / len(data), round_to) if data else "Insufficient forecast data"
 
 
 def format_date(day):
