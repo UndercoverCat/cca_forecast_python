@@ -7,10 +7,7 @@ def summarize_forecast(data):
     summaries = {}
 
     # Group entries by day
-    for e in data:
-        entry_time = datetime.fromisoformat(e["date_time"].replace('Z', '+00:00'))
-        key = entry_time.date()
-        grp_day[key].append(e)
+    grp_day = group_by_day(data)
 
     # Process each day
     for day, entries in grp_day.items():
@@ -50,3 +47,10 @@ def summarize_forecast(data):
 
     return summaries
 
+def group_by_day(data):
+    grp_day = defaultdict(list)
+    for e in data:
+        entry_time = datetime.fromisoformat(e["date_time"].replace('Z', '+00:00'))
+        key = entry_time.date()
+        grp_day[key].append(e)
+    return grp_day
