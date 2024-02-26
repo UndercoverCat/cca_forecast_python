@@ -17,7 +17,6 @@ def summarize_forecast(data):
     grp_day = defaultdict(list)
     summaries = {}
 
-    # Group entries by day
     grp_day = group_by_day(data)
 
     # Process each day
@@ -37,10 +36,8 @@ def summarize_forecast(data):
                 afternoon_r.append(e["probability_of_rain"])
 
         summary = {
-            # if no morning data, report insufficient data
             "morning_average_temperature": rounded_average(morning_t),
             "morning_chance_of_rain": rounded_average(morning_r, 2),
-            # if no afternoon data, report insufficient data
             "afternoon_average_temperature": rounded_average(afternoon_t),
             "afternoon_chance_of_rain": rounded_average(afternoon_r, 2),
             "high_temperature": max(all_t),
